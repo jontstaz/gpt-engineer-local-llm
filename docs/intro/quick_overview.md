@@ -6,7 +6,7 @@ GPT-Engineer is a project that uses GPT-4 to automate the process of software en
 
 ## Core Components
 ### 1. AI Class (`gpt_engineer/ai.py`)
-The AI class is the main interface to the GPT-4 model. It provides methods to start a conversation with the model, continue an existing conversation, and format system and user messages.
+The AI class is the main interface to the GPT-4 model, and now also supports LiteLLM and Llama API. It provides methods to start a conversation with the model, continue an existing conversation, and format system and user messages.
 
 <br>
 
