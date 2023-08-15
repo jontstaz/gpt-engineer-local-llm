@@ -177,6 +177,20 @@ def create_chat_model(model: str, temperature) -> BaseChatModel:
             streaming=True,
             client=openai.ChatCompletion,
         )
+    elif model == "LiteLLM":
+        return LiteLLMChatModel(
+            model="LiteLLM",
+            temperature=temperature,
+            streaming=True,
+            client=openai.ChatCompletion,
+        )
+    elif model == "Llama API":
+        return LlamaAPIChatModel(
+            model="Llama API",
+            temperature=temperature,
+            streaming=True,
+            client=openai.ChatCompletion,
+        )
     else:
         raise ValueError(f"Model {model} is not supported.")
 
@@ -184,6 +198,10 @@ def create_chat_model(model: str, temperature) -> BaseChatModel:
 def get_tokenizer(model: str):
     if "gpt-4" in model or "gpt-3.5" in model:
         return tiktoken.encoding_for_model(model)
+    elif "LiteLLM" in model:
+        return LiteLLMTokenizer()
+    elif "Llama API" in model:
+        return LlamaAPITokenizer()
 
     logger.debug(
         f"No encoder implemented for model {model}."
