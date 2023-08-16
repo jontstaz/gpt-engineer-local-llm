@@ -167,7 +167,7 @@ def create_chat_model(model: str, temperature) -> BaseChatModel:
         # Check if LiteLLMChatModel is implemented
         try:
             return LiteLLMChatModel(
-                model="LiteLLM",
+                model=model,
                 temperature=temperature,
                 streaming=True,
                 client=openai.ChatCompletion,
@@ -213,13 +213,13 @@ def create_chat_model(model: str, temperature) -> BaseChatModel:
 
 def get_tokenizer(model: str):
     if "gpt-4" in model or "gpt-3.5" in model:
-        return tiktoken.encoding_for_model(model)
-    elif "LiteLLM" in model:
-        # Check if LiteLLMTokenizer is implemented
-        try:
-            return LiteLLMTokenizer()
-        except NameError:
-            raise NotImplementedError("LiteLLMTokenizer is not implemented.")
+        def get_tokenizer(model: str):
+            elif "LiteLLM" in model:
+                # Check if LiteLLMTokenizer is implemented
+                try:
+                    return LiteLLMTokenizer(model=model)
+                except NameError:
+                    raise NotImplementedError("LiteLLMTokenizer is not implemented.")
     elif "Llama API" in model:
         # Check if LlamaAPITokenizer is implemented
         try:
