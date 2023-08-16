@@ -163,27 +163,69 @@ def fallback_model(model: str) -> str:
 
 
 def create_chat_model(model: str, temperature) -> BaseChatModel:
-    if model == "gpt-4":
-        return ChatOpenAI(
-            model="gpt-4",
-            temperature=temperature,
-            streaming=True,
-            client=openai.ChatCompletion,
-        )
-    elif model == "gpt-3.5-turbo":
-        return ChatOpenAI(
-            model="gpt-3.5-turbo",
-            temperature=temperature,
-            streaming=True,
-            client=openai.ChatCompletion,
-        )
+    elif model == "LiteLLM":
+        # Check if LiteLLMChatModel is implemented
+        try:
+            return LiteLLMChatModel(
+                model=model,
+                temperature=temperature,
+                streaming=True,
+                client=openai.ChatCompletion,
+            )
+        except NameError:
+            raise NotImplementedError("LiteLLMChatModel is not implemented.")
+    elif model == "Llama API":
+        # Check if LlamaAPIChatModel is implemented
+        try:
+            return LlamaAPIChatModel(
+                model="Llama API",
+                temperature=temperature,
+                streaming=True,
+                client=openai.ChatCompletion,
+            )
+        except NameError:
+            raise NotImplementedError("LlamaAPIChatModel is not implemented.")
+    else:
+        raise ValueError(f"Model {model} is not supported.")
+        try:
+            return LiteLLMChatModel(
+                model="LiteLLM",
+                temperature=temperature,
+                streaming=True,
+                client=openai.ChatCompletion,
+            )
+        except NameError:
+            raise NotImplementedError("LiteLLMChatModel is not implemented.")
+    elif model == "Llama API":
+        # Check if LlamaAPIChatModel is implemented
+        try:
+            return LlamaAPIChatModel(
+                model="Llama API",
+                temperature=temperature,
+                streaming=True,
+                client=openai.ChatCompletion,
+            )
+        except NameError:
+            raise NotImplementedError("LlamaAPIChatModel is not implemented.")
     else:
         raise ValueError(f"Model {model} is not supported.")
 
 
 def get_tokenizer(model: str):
     if "gpt-4" in model or "gpt-3.5" in model:
-        return tiktoken.encoding_for_model(model)
+        def get_tokenizer(model: str):
+            elif "LiteLLM" in model:
+                # Check if LiteLLMTokenizer is implemented
+                try:
+                    return LiteLLMTokenizer(model=model)
+                except NameError:
+                    raise NotImplementedError("LiteLLMTokenizer is not implemented.")
+    elif "Llama API" in model:
+        # Check if LlamaAPITokenizer is implemented
+        try:
+            return LlamaAPITokenizer()
+        except NameError:
+            raise NotImplementedError("LlamaAPITokenizer is not implemented.")
 
     logger.debug(
         f"No encoder implemented for model {model}."
